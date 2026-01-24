@@ -1,7 +1,5 @@
-import express from "express";
-import { createUser } from "../controllers/user.controller";
-const router = express.Router();
+import express, { type Router } from "express";
 
-router.post("/register", createUser);
+const router: Router = express.Router();
 
 export default router;
