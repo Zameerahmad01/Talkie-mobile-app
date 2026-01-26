@@ -40,8 +40,8 @@ export async function authCallback(
       user = await User.create({
         clerkId: clerkId,
         name: clerkUser.firstName
-          ? (clerkUser.firstName + " " + clerkUser.lastName).trim()
-          : clerkUser.emailAddresses[0]?.emailAddress.split("@")[0],
+          ? (clerkUser.firstName + " " + clerkUser.lastName || "").trim()
+          : clerkUser.emailAddresses[0]?.emailAddress?.split("@")[0],
         email: clerkUser.emailAddresses[0]?.emailAddress,
         avatar: clerkUser.imageUrl,
       });
