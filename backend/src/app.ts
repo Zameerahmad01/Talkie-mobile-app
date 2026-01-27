@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import { clerkMiddleware } from "@clerk/express";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
+import chatRoutes from "./routes/chat.routes";
+import messageRoutes from "./routes/message.routes";
 import { errorHandler } from "./middlewares/errorHandler";
 
 const app: Express = express();
@@ -21,9 +23,10 @@ app.use(clerkMiddleware());
 //routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth", authRoutes);
-// app.use("/api/v1/chats", chatRoutes);
-// app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/chats", chatRoutes);
+app.use("/api/v1/messages", messageRoutes);
 
 //error handler middleware
 app.use(errorHandler);
+
 export default app;
