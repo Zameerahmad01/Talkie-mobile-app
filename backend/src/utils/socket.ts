@@ -5,10 +5,6 @@ import { User } from "../models/user.model";
 import { Chat } from "../models/chat.model";
 import { Message } from "../models/message.model";
 
-interface SocketWithUserId extends Socket {
-  userId: string;
-}
-
 //store online users in memory : userId -> socketId
 const onlineUsers: Map<string, string> = new Map();
 
@@ -38,7 +34,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
       if (!user) {
         return next(new Error("user not found"));
       }
-      (socket as SocketWithUserId).userId = user._id.toString();
+      socket.data.userId = user._id.toString();
       next();
     } catch (error: any) {
       next(new Error(error));
@@ -46,7 +42,7 @@ export const initializeSocket = (httpServer: HttpServer) => {
   });
 
   io.on("connection", (socket) => {
-    const userId = (socket as SocketWithUserId).userId;
+    const userId = socket.data.userId;
 
     //send list of online users to the newly connected user
     socket.emit("online-users", {
